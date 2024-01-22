@@ -1,18 +1,36 @@
+let row=22;
+let col=7;
+let scendo = true;
+
 
 const celleBlocchi = {
-    'L' : {'|S' : {}, '|G' : [{'r' : 0, 'c' : 0}], '-S': {}, '-D': {}}
+    'L' : {'|S' : {}, '|G' : ['00','01','10','20'], '-S': {}, '-D': {}}
 }
-
 
 
 function init() {
     disegnaGriglia();
-    numeroCol.addEventListener("change", disegnaGriglia);
+    numeroCol.addEventListener("change", resetDisegnaGriglia);
 }
-
 
 function gameLoop() {
     
+    
+    disegnaOggetto("L","|G",''+row+"-"+col,"red");
+
+
+    if(row>0 && scendo){
+        scendo=false;
+        setTimeout(() => {
+            console.log("scendo");
+            disegnaOggetto("L","|G",''+row+"-"+col,"white"); 
+            let p = row-1;
+            disegnaOggetto("L","|G",''+p+"-"+col,"red");
+            row--;
+            scendo=true;
+        },2000);
+    }
+    requestAnimationFrame(gameLoop);
 }
 
 
@@ -52,6 +70,23 @@ function stampaOra(){
 }
 
 
+function disegnaOggetto(tipo, disposizione, cellaDiPartenza, colore){
+    let ar = celleBlocchi[tipo][disposizione];
+    cella = cellaDiPartenza.split('-');
+    ar.forEach(e=>{
+        r=parseInt(cella[0])+parseInt(e[0]);
+        c=parseInt(cella[1])+parseInt(e[1]);
+        document.getElementById("c"+r+"-"+c).style.backgroundColor=colore;
+    })
+
+}
+
+function resetDisegnaGriglia(){
+    row=22;
+    disegnaGriglia()
+}
+
+
 function disegnaGriglia(){
    // console.log("inizio");
    // stampaOra();
@@ -68,10 +103,10 @@ function disegnaGriglia(){
     //gameContaine.style.gridTemplateColumns = "repeat("+numeroCol.value+", 30px)";
 
     let strGame="";
-    for(let i=0;i<25;i++){
+    for(let i=24;i>=0;i--){
         strGame+="<span class=\"row"+i+"\">";
         for(let j=0;j<numeroCol.value;j++){
-            strGame+="<div class=\"cell\" id=\"c"+i+''+j+"\"></div>";
+            strGame+="<div class=\"cell\" id=\"c"+i+'-'+j+"\"></div>";
         }
        strGame+="</span>";
     }
@@ -81,6 +116,8 @@ function disegnaGriglia(){
     Array.prototype.forEach.call(el, function(element) {
        element.style.gridTemplateColumns = "repeat("+numeroCol.value+", 30px)";
     });
+
+    gameLoop();
 
     //console.log("fine");
     //stampaOra();
