@@ -2,11 +2,9 @@ let row=22;
 let col=7;
 let scendo = true;
 
-
 const celleBlocchi = {
     'L' : {'|S' : {}, '|G' : ['00','01','10','20'], '-S': {}, '-D': {}}
 }
-
 
 function init() {
     disegnaGriglia();
@@ -15,9 +13,7 @@ function init() {
 
 function gameLoop() {
     
-    
     disegnaOggetto("L","|G",''+row+"-"+col,"red");
-
 
     if(row>0 && scendo){
         scendo=false;
@@ -33,28 +29,18 @@ function gameLoop() {
     requestAnimationFrame(gameLoop);
 }
 
-
-function startGame() {
-    
-}
-
-
 window.onload = function () {
     init();
     startGame();
 };
 
-
 function stampaOra(){
-   
     const dataAttuale = new Date();
-
 
     let ore = dataAttuale.getHours();
     let minuti = dataAttuale.getMinutes();
     let secondi = dataAttuale.getSeconds();
     let millisecondi = dataAttuale.getMilliseconds();
-
  
     if (ore < 10) ore = '0' + ore;
     if (minuti < 10) minuti = '0' + minuti;
@@ -62,13 +48,11 @@ function stampaOra(){
     if (millisecondi < 10) millisecondi = '00' + millisecondi;
     else if (millisecondi < 100) millisecondi = '0' + millisecondi;
 
- 
     const oraAttuale = ore + ':' + minuti + ':' + secondi + '.' + millisecondi;
 
 
     console.log(oraAttuale);
 }
-
 
 function disegnaOggetto(tipo, disposizione, cellaDiPartenza, colore){
     let ar = celleBlocchi[tipo][disposizione];
@@ -86,10 +70,8 @@ function resetDisegnaGriglia(){
     disegnaGriglia()
 }
 
-
 function disegnaGriglia(){
-   // console.log("inizio");
-   // stampaOra();
+
     const gameContaine = document.getElementById('game-container');
     const numeroCol = document.getElementById("numeroCol");
     if(!numeroCol.value){
@@ -99,8 +81,6 @@ function disegnaGriglia(){
     }else if(numeroCol.value>30){
         numeroCol.value=30;
     }
-   
-    //gameContaine.style.gridTemplateColumns = "repeat("+numeroCol.value+", 30px)";
 
     let strGame="";
     for(let i=24;i>=0;i--){
@@ -118,8 +98,4 @@ function disegnaGriglia(){
     });
 
     gameLoop();
-
-    //console.log("fine");
-    //stampaOra();
-   
 }
