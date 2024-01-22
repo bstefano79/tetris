@@ -1,4 +1,9 @@
 
+const celleBlocchi = {
+    'L' : {'|S' : {}, '|G' : [{'r' : 0, 'c' : 0}], '-S': {}, '-D': {}}
+}
+
+
 
 function init() {
     disegnaGriglia();
@@ -48,8 +53,8 @@ function stampaOra(){
 
 
 function disegnaGriglia(){
-
-
+   // console.log("inizio");
+   // stampaOra();
     const gameContaine = document.getElementById('game-container');
     const numeroCol = document.getElementById("numeroCol");
     if(!numeroCol.value){
@@ -59,14 +64,25 @@ function disegnaGriglia(){
     }else if(numeroCol.value>30){
         numeroCol.value=30;
     }
+   
+    //gameContaine.style.gridTemplateColumns = "repeat("+numeroCol.value+", 30px)";
 
-    gameContaine.style.gridTemplateColumns = "repeat("+numeroCol.value+", 30px)";
-
-    gameContaine.innerHTML="";
+    let strGame="";
     for(let i=0;i<25;i++){
+        strGame+="<span class=\"row"+i+"\">";
         for(let j=0;j<numeroCol.value;j++){
-            gameContaine.innerHTML+="<div class=\"cell\" id=\"c"+i+''+j+"\"></div>";
+            strGame+="<div class=\"cell\" id=\"c"+i+''+j+"\"></div>";
         }
+       strGame+="</span>";
     }
+    gameContaine.innerHTML=strGame;
+
+    const el = gameContaine.getElementsByTagName("span");
+    Array.prototype.forEach.call(el, function(element) {
+       element.style.gridTemplateColumns = "repeat("+numeroCol.value+", 30px)";
+    });
+
+    //console.log("fine");
+    //stampaOra();
    
 }

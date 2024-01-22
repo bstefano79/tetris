@@ -6,11 +6,15 @@ body {
 }
 
 #game-container {
+  
+}
+
+#game-container span{
     display: grid;
-   /* grid-template-rows: repeat(2, 30px); /* 2 righe, 30px ciascuna */
+    /*grid-template-rows: repeat(2, 30px); /* 2 righe, 30px ciascuna */
     grid-template-columns: repeat(20, 30px); /* 10 colonne, 30px ciascuna */
-    grid-gap: 1px; /* Spazio tra le celle */
-    margin-top: 30px;
+    /*grid-gap: 1px; /* Spazio tra le celle */
+    /*margin-top: 30px;*/
 }
 
 .cell {
