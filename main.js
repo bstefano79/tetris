@@ -3,6 +3,7 @@ let col=7;
 let scendo = true;
 let destra = true;
 let sinistra = true;
+let giu=true;
 
 let rightPressed = false;
 let leftPressed = false;
@@ -17,9 +18,9 @@ document.addEventListener("keydown", function (e) {
         rightPressed = true;
     } else if (e.key === "ArrowLeft") {
         leftPressed = true;
-    } else if (e.key === "ArrowUp" && !player.jumping) {
+    } else if (e.key === "ArrowUp") {
         jumpUpPressed = true;
-    } else if (e.key === "ArrowDown" && !player.jumping) {
+    } else if (e.key === "ArrowDown") {
         jumpDownPressed = true;
     }
 });
@@ -37,7 +38,7 @@ document.addEventListener("keyup", function (e) {
 });
 
 const celleBlocchi = {
-    'L' : {'|S' : {}, '|G' : ['00','01','10','20'], '-S': {}, '-D': {}}
+    'L' : {'|S' : {}, '|G' : {'draw' : ['00','01','10','20'], 'large' : 2}, '-S': {}, '-D': {}}
 }
 
 function init() {
@@ -45,40 +46,52 @@ function init() {
     numeroCol.addEventListener("change", resetDisegnaGriglia);
 }
 
+let oggetto = {};
+oggetto['tipo']="L";
+oggetto['posizione']="|G";
+
 function gameLoop() {
     
-    disegnaOggetto("L","|G",''+row+"-"+col,"red");
+    let large=celleBlocchi[oggetto.tipo][oggetto.posizione]['large'];
 
     if(row>0 && scendo){
         scendo=false;
         setTimeout(() => {
-            disegnaOggetto("L","|G",''+row+"-"+col,"white"); 
-            let p = row-1;
-            disegnaOggetto("L","|G",''+p+"-"+col,"red");
-            row--;
+            disegnaOggetto(oggetto.tipo,oggetto.posizione,''+row+"-"+col,"white"); 
+            row--
+            if(row<0) row=0; 
+            disegnaOggetto(oggetto.tipo,oggetto.posizione,''+row+"-"+col,"red");
             scendo=true;
-        },2000);
+        },1000);
     } else{
-        if (rightPressed && destra && col<numeroCol.value-1) {
+        if (rightPressed && destra && col<numeroCol.value-large) {
             destra=false;
             setTimeout(() => {
-                disegnaOggetto("L","|G",''+row+"-"+col,"white");
-                let p = col+1;
-                console.log(p);
-                disegnaOggetto("L","|G",''+row+"-"+p,"red");
-                col++;
+                disegnaOggetto(oggetto.tipo,oggetto.posizione,''+row+"-"+col,"white");
+                col++
+                disegnaOggetto(oggetto.tipo,oggetto.posizione,''+row+"-"+col,"red");
                 destra=true;
-            },500);
+            },50);
         }else{
             if (leftPressed && sinistra && col>0) {
                 sinistra=false;
                 setTimeout(() => {
-                    disegnaOggetto("L","|G",''+row+"-"+col,"white");
-                    let p = col-1;
-                    disegnaOggetto("L","|G",''+row+"-"+p,"red");
-                    col--;
+                    disegnaOggetto(oggetto.tipo,oggetto.posizione,''+row+"-"+col,"white");
+                    col--
+                    disegnaOggetto(oggetto.tipo,oggetto.posizione,''+row+"-"+col,"red");
                     sinistra=true;
-                },500);
+                },50);
+            }else{
+                if (jumpDownPressed && giu && row>0) {
+                    giu=false;
+                    setTimeout(() => {
+                        disegnaOggetto(oggetto.tipo,oggetto.posizione,''+row+"-"+col,"white");
+                        row-=2
+                        if(row<0) row=0;
+                        disegnaOggetto(oggetto.tipo,oggetto.posizione,''+row+"-"+col,"red");
+                        giu=true;
+                    },50);
+                }
             }
         }
     }
@@ -109,7 +122,7 @@ function stampaOra(){
 }
 
 function disegnaOggetto(tipo, disposizione, cellaDiPartenza, colore){
-    let ar = celleBlocchi[tipo][disposizione];
+    let ar = celleBlocchi[tipo][disposizione]['draw'];
     cella = cellaDiPartenza.split('-');
     ar.forEach(e=>{
         r=parseInt(cella[0])+parseInt(e[0]);
@@ -120,6 +133,7 @@ function disegnaOggetto(tipo, disposizione, cellaDiPartenza, colore){
 
 function resetDisegnaGriglia(){
     row=22;
+    col=7;
     disegnaGriglia()
 }
 
@@ -146,6 +160,8 @@ function disegnaGriglia(){
     Array.prototype.forEach.call(el, function(element) {
        element.style.gridTemplateColumns = "repeat("+numeroCol.value+", 30px)";
     });
+
+    disegnaOggetto(oggetto.tipo,oggetto.posizione,''+row+"-"+col,"red");
 
     gameLoop();
 }
