@@ -56,7 +56,7 @@ function init() {
 
 let oggetto = {};
 oggetto['tipo']="L";
-oggetto['posizione']="-D";
+oggetto['posizione']="|G";
 
 function gameLoop() {
     
@@ -80,7 +80,7 @@ function gameLoop() {
                 col++
                 disegnaOggetto(oggetto.tipo,oggetto.posizione,''+row+"#"+col,"red");
                 destra=true;
-            },50);
+            },150);
         }else{
             if (leftPressed && sinistra && col-largeLeft>0) {
                 sinistra=false;
@@ -89,7 +89,7 @@ function gameLoop() {
                     col--
                     disegnaOggetto(oggetto.tipo,oggetto.posizione,''+row+"#"+col,"red");
                     sinistra=true;
-                },50);
+                },150);
             }else{
                 if (jumpDownPressed && giu && row>0) {
                     giu=false;
