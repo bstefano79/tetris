@@ -1,6 +1,40 @@
 let row=22;
 let col=7;
 let scendo = true;
+let destra = true;
+let sinistra = true;
+
+let rightPressed = false;
+let leftPressed = false;
+let jumpUpPressed = false;
+let jumpDownPressed = false;
+
+const gameContaine = document.getElementById('game-container');
+const numeroCol = document.getElementById("numeroCol");
+
+document.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowRight") {
+        rightPressed = true;
+    } else if (e.key === "ArrowLeft") {
+        leftPressed = true;
+    } else if (e.key === "ArrowUp" && !player.jumping) {
+        jumpUpPressed = true;
+    } else if (e.key === "ArrowDown" && !player.jumping) {
+        jumpDownPressed = true;
+    }
+});
+
+document.addEventListener("keyup", function (e) {
+    if (e.key === "ArrowRight") {
+        rightPressed = false;
+    } else if (e.key === "ArrowLeft") {
+        leftPressed = false;
+    } else if (e.key === "ArrowUp") {
+        jumpUpPressed = false;
+    } else if (e.key === "ArrowDown") {
+        jumpDownPressed = false;
+    }
+});
 
 const celleBlocchi = {
     'L' : {'|S' : {}, '|G' : ['00','01','10','20'], '-S': {}, '-D': {}}
@@ -18,20 +52,41 @@ function gameLoop() {
     if(row>0 && scendo){
         scendo=false;
         setTimeout(() => {
-            console.log("scendo");
             disegnaOggetto("L","|G",''+row+"-"+col,"white"); 
             let p = row-1;
             disegnaOggetto("L","|G",''+p+"-"+col,"red");
             row--;
             scendo=true;
         },2000);
+    } else{
+        if (rightPressed && destra && col<numeroCol.value-1) {
+            destra=false;
+            setTimeout(() => {
+                disegnaOggetto("L","|G",''+row+"-"+col,"white");
+                let p = col+1;
+                console.log(p);
+                disegnaOggetto("L","|G",''+row+"-"+p,"red");
+                col++;
+                destra=true;
+            },500);
+        }else{
+            if (leftPressed && sinistra && col>0) {
+                sinistra=false;
+                setTimeout(() => {
+                    disegnaOggetto("L","|G",''+row+"-"+col,"white");
+                    let p = col-1;
+                    disegnaOggetto("L","|G",''+row+"-"+p,"red");
+                    col--;
+                    sinistra=true;
+                },500);
+            }
+        }
     }
     requestAnimationFrame(gameLoop);
 }
 
 window.onload = function () {
     init();
-    startGame();
 };
 
 function stampaOra(){
@@ -50,7 +105,6 @@ function stampaOra(){
 
     const oraAttuale = ore + ':' + minuti + ':' + secondi + '.' + millisecondi;
 
-
     console.log(oraAttuale);
 }
 
@@ -62,7 +116,6 @@ function disegnaOggetto(tipo, disposizione, cellaDiPartenza, colore){
         c=parseInt(cella[1])+parseInt(e[1]);
         document.getElementById("c"+r+"-"+c).style.backgroundColor=colore;
     })
-
 }
 
 function resetDisegnaGriglia(){
@@ -71,9 +124,6 @@ function resetDisegnaGriglia(){
 }
 
 function disegnaGriglia(){
-
-    const gameContaine = document.getElementById('game-container');
-    const numeroCol = document.getElementById("numeroCol");
     if(!numeroCol.value){
         numeroCol.value=20;
     }else if(numeroCol.value<10){
