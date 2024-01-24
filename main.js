@@ -40,7 +40,8 @@ document.addEventListener("keyup", function (e) {
 });
 
 const celleBlocchi = {
-    'L' : {'|S' : {'draw' : ['0#0','1#0','2#0','2#-1'], 'largeRight' : 1, 'largeLeft' : 1, 'shiftStartRow' : 2}, '|G' : {'draw' : ['0#0','0#1','1#0','2#0'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 2}, '-S': {'draw' : ['0#-1','0#0','0#1','1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 1}, '-D': {'draw' : ['0#-1','1#-1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 1, 'shiftStartRow' : 1}, 'partenza' : "-S", 'color' : 'red'}
+    'L' : {'|S' : {'draw' : ['0#0','1#0','2#0','2#-1'], 'largeRight' : 1, 'largeLeft' : 1, 'shiftStartRow' : 2}, '|G' : {'draw' : ['0#0','0#1','1#0','2#0'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 2}, '-S': {'draw' : ['0#-1','0#0','0#1','1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 1}, '-D': {'draw' : ['0#-1','1#-1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 1, 'shiftStartRow' : 1}, 'partenza' : "-S", 'color' : 'red'},
+    'O' : {'|S' : {'draw' : ['0#0','0#1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 1}, '|G' : {'draw' : ['0#0','0#1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 1}, '-S': {'draw' : ['0#0','0#1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 1}, '-D': {'draw' : ['0#0','0#1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 1}, 'partenza' : "-S", 'color' : 'green'}
 }
 
 const rotate = {
@@ -58,7 +59,7 @@ function init() {
 let timeoutIDs = [];
 
 let oggetto = {};
-oggetto['tipo'] = "L";
+oggetto['tipo'] = "O";
 oggetto['posizione'] = celleBlocchi[oggetto['tipo']]['partenza'];
 oggetto['shiftStartRow'] = celleBlocchi[oggetto['tipo']][oggetto.posizione].shiftStartRow;
 oggetto['row'] = row-oggetto['shiftStartRow'];
@@ -177,7 +178,7 @@ function disegnaOggetto(tipo, disposizione, cellaDiPartenza, colore){
 function resetDisegnaGriglia(){
     timeoutIDs.forEach(id => clearTimeout(id));
     oggetto={};
-    oggetto['tipo'] = "L";
+    oggetto['tipo'] = "O";
     oggetto['posizione'] = celleBlocchi[oggetto['tipo']]['partenza'];
     oggetto['shiftStartRow'] = celleBlocchi[oggetto['tipo']][oggetto.posizione].shiftStartRow;
     oggetto['row'] = row-oggetto['shiftStartRow'];
