@@ -1,4 +1,4 @@
-let row=22;
+let row=23;
 let col=7;
 let scendo = true;
 let destra = true;
@@ -39,7 +39,7 @@ document.addEventListener("keyup", function (e) {
 });
 
 const celleBlocchi = {
-    'L' : {'|S' : {'draw' : ['0#0','1#0','2#0','2#-1'], 'largeRight' : 1, 'largeLeft' : 1}, '|G' : {'draw' : ['0#0','0#1','1#0','2#0'], 'largeRight' : 2, 'largeLeft' : 0}, '-S': {'draw' : ['0#0','0#1','0#2','1#2'], 'largeRight' : 3, 'largeLeft' : 0}, '-D': {'draw' : ['0#0','1#0','1#1','1#2'], 'largeRight' : 3, 'largeLeft' : 0}}
+    'L' : {'|S' : {'draw' : ['0#0','1#0','2#0','2#-1'], 'largeRight' : 1, 'largeLeft' : 1}, '|G' : {'draw' : ['0#0','0#1','1#0','2#0'], 'largeRight' : 2, 'largeLeft' : 0}, '-S': {'draw' : ['0#0','0#1','0#2','1#2'], 'largeRight' : 3, 'largeLeft' : 0}, '-D': {'draw' : ['0#0','1#0','1#1','1#2'], 'largeRight' : 3, 'largeLeft' : 0}, 'partenza' : "-S"}
 }
 
 const rotate = {
@@ -56,7 +56,7 @@ function init() {
 
 let oggetto = {};
 oggetto['tipo']="L";
-oggetto['posizione']="|G";
+oggetto['posizione']=celleBlocchi[oggetto['tipo']]['partenza'];
 
 function gameLoop() {
     
