@@ -44,10 +44,10 @@ const celleBlocchi = {
 }
 
 const rotate = {
-    '|S' : '-D',
-    '-D' : '|G',
-    '|G' : '-S',
-    '-S' : '|S'
+    '|S' : '-S',
+    '-S' : '|G',
+    '|G' : '-D',
+    '-D' : '|S'
 }
 
 function init() {
@@ -211,7 +211,7 @@ function disegnaGriglia(){
 
     const el = gameContaine.getElementsByTagName("span");
     Array.prototype.forEach.call(el, function(element) {
-       element.style.gridTemplateColumns = "repeat("+numeroCol.value+", 30px)";
+       element.style.gridTemplateColumns = "repeat("+numeroCol.value+", 25px)";
     });
 
     let rowPezzo = row-oggetto['shiftStartRow'];
