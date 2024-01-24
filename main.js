@@ -69,16 +69,35 @@ oggetto['destra'] = true;
 oggetto['sinistra'] = true;
 oggetto['giu'] = true;
 oggetto['su'] = true;
+oggetto['nonStoLampeggiando']=true;
 oggetto['color'] = celleBlocchi[oggetto['tipo']].color;
 oggetto['largeRight']=celleBlocchi[oggetto.tipo][oggetto.posizione]['largeRight'];
 oggetto['largeLeft']=celleBlocchi[oggetto.tipo][oggetto.posizione]['largeLeft'];
+oggetto['lampeggia'] = () => {
+    let ar = celleBlocchi[oggetto.tipo][oggetto.posizione]['draw'];
+    cella = [oggetto.row,oggetto.col]
+    ar.forEach(e=>{
+        e=e.split('#');
+        
+        const r = parseInt(oggetto.row)+parseInt(e[0]);
+        const c = parseInt(oggetto.col)+parseInt(e[1]);
+        const myDiv = document.getElementById('c'+r+'-'+c);
+        myDiv.classList.add('flash-div');
+        myDiv.style.animation = 'flash 0.5s ease-in-out';
+
+        var styleSheet = document.styleSheets[0];
+        styleSheet.insertRule('@keyframes flash { 0%, 100% { background-color: initial; } 50% { background-color: '+oggetto.color+'; } }', styleSheet.cssRules.length);   
+    })
+}
 
 function gameLoop() {
     if(oggetto){
-        if(oggetto.row<=0){
+        if(oggetto.row<=0 && oggetto.nonStoLampeggiando){
+            oggetto.nonStoLampeggiando=false;
+            oggetto.lampeggia();
             timeoutIDs.push(setTimeout(() => {
                 oggetto=null;
-            },500));
+            },700));
         }
         if(oggetto.row>0 && oggetto.scendo){
             oggetto.scendo=false;
@@ -144,6 +163,40 @@ function gameLoop() {
                 }
             }
         }
+    }else{
+        timeoutIDs.forEach(id => clearTimeout(id));
+        oggetto={};
+        oggetto['tipo'] = "O";
+        oggetto['posizione'] = celleBlocchi[oggetto['tipo']]['partenza'];
+        oggetto['shiftStartRow'] = celleBlocchi[oggetto['tipo']][oggetto.posizione].shiftStartRow;
+        oggetto['row'] = row-oggetto['shiftStartRow'];
+        oggetto['col'] = 7;
+        oggetto['scendo'] = true;
+        oggetto['destra'] = true;
+        oggetto['sinistra'] = true;
+        oggetto['giu'] = true;
+        oggetto['su'] = true;
+        oggetto['nonStoLampeggiando']=true;
+        oggetto['color'] = celleBlocchi[oggetto['tipo']].color;
+        oggetto['largeRight']=celleBlocchi[oggetto.tipo][oggetto.posizione]['largeRight'];
+        oggetto['largeLeft']=celleBlocchi[oggetto.tipo][oggetto.posizione]['largeLeft'];
+        oggetto['lampeggia'] = () => {
+            let ar = celleBlocchi[oggetto.tipo][oggetto.posizione]['draw'];
+            cella = [oggetto.row,oggetto.col]
+            ar.forEach(e=>{
+                e=e.split('#');
+                
+                const r = parseInt(oggetto.row)+parseInt(e[0]);
+                const c = parseInt(oggetto.col)+parseInt(e[1]);
+                const myDiv = document.getElementById('c'+r+'-'+c);
+                myDiv.classList.add('flash-div');
+                myDiv.style.animation = 'flash 0.5s ease-in-out';
+        
+                var styleSheet = document.styleSheets[0];
+                styleSheet.insertRule('@keyframes flash { 0%, 100% { background-color: initial; } 50% { background-color: '+oggetto.color+'; } }', styleSheet.cssRules.length);   
+            })
+        }
+        disegnaOggetto(oggetto.tipo,oggetto.posizione,''+oggetto.row+"#"+oggetto.col,oggetto.color);
     }
     requestAnimationFrame(gameLoop);
 }
