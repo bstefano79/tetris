@@ -40,8 +40,8 @@ document.addEventListener("keyup", function (e) {
 });
 
 const celleBlocchi = {
-    'L' : {'|S' : {'draw' : ['0#0','1#0','2#0','2#-1'], 'largeRight' : 1, 'largeLeft' : 1, 'shiftStartRow' : 2}, '|G' : {'draw' : ['0#0','0#1','1#0','2#0'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 2}, '-S': {'draw' : ['0#-1','0#0','0#1','1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 1}, '-D': {'draw' : ['0#-1','1#-1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 1, 'shiftStartRow' : 1}, 'partenza' : "-S", 'color' : 'red'},
-    'O' : {'|S' : {'draw' : ['0#0','0#1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 1}, '|G' : {'draw' : ['0#0','0#1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 1}, '-S': {'draw' : ['0#0','0#1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 1}, '-D': {'draw' : ['0#0','0#1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 1}, 'partenza' : "-S", 'color' : '	#FFD700'}
+    'L' : {'|S' : {'draw' : ['0#0','1#0','2#0','2#-1'], 'largeRight' : 1, 'largeLeft' : 1, 'shiftStartRow' : 2}, '|G' : {'draw' : ['0#0','0#1','1#0','2#0'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 2}, '-S': {'draw' : ['0#-1','0#0','0#1','1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 1}, '-D': {'draw' : ['0#-1','1#-1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 1, 'shiftStartRow' : 1}, 'partenza' : "-S", 'color' : '#FFD700'},
+    'O' : {'|S' : {'draw' : ['0#0','0#1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 1}, '|G' : {'draw' : ['0#0','0#1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 1}, '-S': {'draw' : ['0#0','0#1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 1}, '-D': {'draw' : ['0#0','0#1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 1}, 'partenza' : "-S", 'color' : '#FFFF00'}
 }
 
 const rotate = {
@@ -59,7 +59,7 @@ function init() {
 let timeoutIDs = [];
 
 let oggetto = {};
-oggetto['tipo'] = "O";
+oggetto['tipo'] = "L";
 oggetto['posizione'] = celleBlocchi[oggetto['tipo']]['partenza'];
 oggetto['shiftStartRow'] = celleBlocchi[oggetto['tipo']][oggetto.posizione].shiftStartRow;
 oggetto['row'] = row-oggetto['shiftStartRow'];
@@ -74,65 +74,72 @@ oggetto['largeRight']=celleBlocchi[oggetto.tipo][oggetto.posizione]['largeRight'
 oggetto['largeLeft']=celleBlocchi[oggetto.tipo][oggetto.posizione]['largeLeft'];
 
 function gameLoop() {
-    if(oggetto.row>0 && oggetto.scendo){
-        oggetto.scendo=false;
-        timeoutIDs.push(setTimeout(() => {
-            disegnaOggetto(oggetto.tipo,oggetto.posizione,''+oggetto.row+"#"+oggetto.col,"white"); 
-            oggetto.row--
-            if(oggetto.row<0) oggetto.row=0; 
-            disegnaOggetto(oggetto.tipo,oggetto.posizione,''+oggetto.row+"#"+oggetto.col,oggetto.color);
-            oggetto.scendo=true;
-        },1000));
-    } else{
-        if (rightPressed && oggetto.destra && oggetto.col<numeroCol.value-oggetto.largeRight) {
-            oggetto.destra=false;
+    if(oggetto){
+        if(oggetto.row<=0){
             timeoutIDs.push(setTimeout(() => {
-                disegnaOggetto(oggetto.tipo,oggetto.posizione,''+oggetto.row+"#"+oggetto.col,"white");
-                oggetto.col++
+                oggetto=null;
+            },500));
+        }
+        if(oggetto.row>0 && oggetto.scendo){
+            oggetto.scendo=false;
+            timeoutIDs.push(setTimeout(() => {
+                disegnaOggetto(oggetto.tipo,oggetto.posizione,''+oggetto.row+"#"+oggetto.col,"white"); 
+                oggetto.row--
+                if(oggetto.row<0) oggetto.row=0;
                 disegnaOggetto(oggetto.tipo,oggetto.posizione,''+oggetto.row+"#"+oggetto.col,oggetto.color);
-                oggetto.destra=true;
-            },150));
-        }else{
-            if (leftPressed && oggetto.sinistra && oggetto.col-oggetto.largeLeft>0) {
-                oggetto.sinistra=false;
+                oggetto.scendo=true;
+            },1000));
+        } else{
+            if (rightPressed && oggetto.destra && oggetto.col<numeroCol.value-oggetto.largeRight) {
+                oggetto.destra=false;
                 timeoutIDs.push(setTimeout(() => {
                     disegnaOggetto(oggetto.tipo,oggetto.posizione,''+oggetto.row+"#"+oggetto.col,"white");
-                    oggetto.col--
+                    oggetto.col++
                     disegnaOggetto(oggetto.tipo,oggetto.posizione,''+oggetto.row+"#"+oggetto.col,oggetto.color);
-                    oggetto.sinistra=true;
+                    oggetto.destra=true;
                 },150));
             }else{
-                if (jumpDownPressed && oggetto.giu && oggetto.row>0) {
-                    oggetto.giu=false;
+                if (leftPressed && oggetto.sinistra && oggetto.col-oggetto.largeLeft>0) {
+                    oggetto.sinistra=false;
                     timeoutIDs.push(setTimeout(() => {
                         disegnaOggetto(oggetto.tipo,oggetto.posizione,''+oggetto.row+"#"+oggetto.col,"white");
-                        oggetto.row-=2
-                        if(oggetto.row<0) oggetto.row=0;
+                        oggetto.col--
                         disegnaOggetto(oggetto.tipo,oggetto.posizione,''+oggetto.row+"#"+oggetto.col,oggetto.color);
-                        oggetto.giu=true;
-                    },50));
+                        oggetto.sinistra=true;
+                    },150));
                 }else{
-                    if (jumpUpPressed && oggetto.su) {
-                        oggetto.su=false;
+                    if (jumpDownPressed && oggetto.giu && oggetto.row>0) {
+                        oggetto.giu=false;
                         timeoutIDs.push(setTimeout(() => {
                             disegnaOggetto(oggetto.tipo,oggetto.posizione,''+oggetto.row+"#"+oggetto.col,"white");
-                            oggetto.posizione=rotate[oggetto.posizione];
-                            oggetto['shiftStartRow'] = celleBlocchi[oggetto['tipo']][oggetto.posizione].shiftStartRow;
-                            oggetto.largeRight=celleBlocchi[oggetto.tipo][oggetto.posizione]['largeRight'];
-                            oggetto.largeLeft=celleBlocchi[oggetto.tipo][oggetto.posizione]['largeLeft'];
-                            if(oggetto.col-oggetto.largeLeft<0){
-                                oggetto.col=oggetto.largeLeft;
-                            } else if(oggetto.col>numeroCol.value-oggetto.largeRight){
-                                oggetto.col=numeroCol.value-oggetto.largeRight;
-                            }
-                        
-                            if(oggetto.row+oggetto.shiftStartRow>row){
-                                oggetto.row=row-oggetto.shiftStartRow;
-                            }
-                        
+                            oggetto.row-=2
+                            if(oggetto.row<0) oggetto.row=0;
                             disegnaOggetto(oggetto.tipo,oggetto.posizione,''+oggetto.row+"#"+oggetto.col,oggetto.color);
-                            oggetto.su=true;
-                        },200));
+                            oggetto.giu=true;
+                        },50));
+                    }else{
+                        if (jumpUpPressed && oggetto.su) {
+                            oggetto.su=false;
+                            timeoutIDs.push(setTimeout(() => {
+                                disegnaOggetto(oggetto.tipo,oggetto.posizione,''+oggetto.row+"#"+oggetto.col,"white");
+                                oggetto.posizione=rotate[oggetto.posizione];
+                                oggetto['shiftStartRow'] = celleBlocchi[oggetto['tipo']][oggetto.posizione].shiftStartRow;
+                                oggetto.largeRight=celleBlocchi[oggetto.tipo][oggetto.posizione]['largeRight'];
+                                oggetto.largeLeft=celleBlocchi[oggetto.tipo][oggetto.posizione]['largeLeft'];
+                                if(oggetto.col-oggetto.largeLeft<0){
+                                    oggetto.col=oggetto.largeLeft;
+                                } else if(oggetto.col>numeroCol.value-oggetto.largeRight){
+                                    oggetto.col=numeroCol.value-oggetto.largeRight;
+                                }
+                            
+                                if(oggetto.row+oggetto.shiftStartRow>row){
+                                    oggetto.row=row-oggetto.shiftStartRow;
+                                }
+                            
+                                disegnaOggetto(oggetto.tipo,oggetto.posizione,''+oggetto.row+"#"+oggetto.col,oggetto.color);
+                                oggetto.su=true;
+                            },200));
+                        }
                     }
                 }
             }
