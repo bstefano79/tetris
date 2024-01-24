@@ -55,6 +55,8 @@ function init() {
     numeroCol.addEventListener("change", resetDisegnaGriglia);
 }
 
+let timeoutIDs = [];
+
 let oggetto = {};
 oggetto['tipo'] = "L";
 oggetto['posizione'] = celleBlocchi[oggetto['tipo']]['partenza'];
@@ -72,45 +74,45 @@ oggetto['largeLeft']=celleBlocchi[oggetto.tipo][oggetto.posizione]['largeLeft'];
 function gameLoop() {
     if(oggetto.row>0 && oggetto.scendo){
         oggetto.scendo=false;
-        setTimeout(() => {
+        timeoutIDs.push(setTimeout(() => {
             disegnaOggetto(oggetto.tipo,oggetto.posizione,''+oggetto.row+"#"+oggetto.col,"white"); 
             oggetto.row--
             if(oggetto.row<0) oggetto.row=0; 
             disegnaOggetto(oggetto.tipo,oggetto.posizione,''+oggetto.row+"#"+oggetto.col,"red");
             oggetto.scendo=true;
-        },1000);
+        },1000));
     } else{
         if (rightPressed && oggetto.destra && oggetto.col<numeroCol.value-oggetto.largeRight) {
             oggetto.destra=false;
-            setTimeout(() => {
+            timeoutIDs.push(setTimeout(() => {
                 disegnaOggetto(oggetto.tipo,oggetto.posizione,''+oggetto.row+"#"+oggetto.col,"white");
                 oggetto.col++
                 disegnaOggetto(oggetto.tipo,oggetto.posizione,''+oggetto.row+"#"+oggetto.col,"red");
                 oggetto.destra=true;
-            },150);
+            },150));
         }else{
             if (leftPressed && oggetto.sinistra && oggetto.col-oggetto.largeLeft>0) {
                 oggetto.sinistra=false;
-                setTimeout(() => {
+                timeoutIDs.push(setTimeout(() => {
                     disegnaOggetto(oggetto.tipo,oggetto.posizione,''+oggetto.row+"#"+oggetto.col,"white");
                     oggetto.col--
                     disegnaOggetto(oggetto.tipo,oggetto.posizione,''+oggetto.row+"#"+oggetto.col,"red");
                     oggetto.sinistra=true;
-                },150);
+                },150));
             }else{
                 if (jumpDownPressed && oggetto.giu && oggetto.row>0) {
                     oggetto.giu=false;
-                    setTimeout(() => {
+                    timeoutIDs.push(setTimeout(() => {
                         disegnaOggetto(oggetto.tipo,oggetto.posizione,''+oggetto.row+"#"+oggetto.col,"white");
                         oggetto.row-=2
                         if(oggetto.row<0) oggetto.row=0;
                         disegnaOggetto(oggetto.tipo,oggetto.posizione,''+oggetto.row+"#"+oggetto.col,"red");
                         oggetto.giu=true;
-                    },50);
+                    },50));
                 }else{
                     if (jumpUpPressed && oggetto.su) {
                         oggetto.su=false;
-                        setTimeout(() => {
+                        timeoutIDs.push(setTimeout(() => {
                             disegnaOggetto(oggetto.tipo,oggetto.posizione,''+oggetto.row+"#"+oggetto.col,"white");
                             oggetto.posizione=rotate[oggetto.posizione];
                             oggetto['shiftStartRow'] = celleBlocchi[oggetto['tipo']][oggetto.posizione].shiftStartRow;
@@ -128,7 +130,7 @@ function gameLoop() {
                         
                             disegnaOggetto(oggetto.tipo,oggetto.posizione,''+oggetto.row+"#"+oggetto.col,"red");
                             oggetto.su=true;
-                        },200);
+                        },200));
                     }
                 }
             }
@@ -172,6 +174,7 @@ function disegnaOggetto(tipo, disposizione, cellaDiPartenza, colore){
 }
 
 function resetDisegnaGriglia(){
+    timeoutIDs.forEach(id => clearTimeout(id));
     oggetto['tipo'] = "L";
     oggetto['posizione'] = celleBlocchi[oggetto['tipo']]['partenza'];
     oggetto['shiftStartRow'] = celleBlocchi[oggetto['tipo']][oggetto.posizione].shiftStartRow;
