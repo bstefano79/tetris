@@ -33,9 +33,9 @@ document.addEventListener("keyup", function (e) {
 });
 
 const celsBlock = {
-    'L' : {'|S' : {'draw' : ['0#0','1#0','2#0','2#-1'], 'largeRight' : 1, 'largeLeft' : 1, 'shiftStartRow' : 2}, '|G' : {'draw' : ['0#0','0#1','1#0','2#0'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 2}, '-S': {'draw' : ['0#-1','0#0','0#1','1#1'], 'largeRight' : 2, 'largeLeft' : 1, 'shiftStartRow' : 1}, '-D': {'draw' : ['0#-1','1#-1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 1, 'shiftStartRow' : 1}, 'start' : "-S", 'color' : '#FFD700'},
-    'O' : {'|S' : {'draw' : ['0#0','0#1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 1}, '|G' : {'draw' : ['0#0','0#1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 1}, '-S': {'draw' : ['0#0','0#1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 1}, '-D': {'draw' : ['0#0','0#1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 1}, 'start' : "-S", 'color' : '#FFFF00'},
-    'S' : {'|S' : {'draw' : ['0#1','1#1','1#0','2#0'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 2}, '|G' : {'draw' : ['0#2','1#2','1#1','2#1'], 'largeRight' : 3, 'largeLeft' : -1, 'shiftStartRow' : 2}, '-S': {'draw' : ['0#0','0#1','1#1','1#2'], 'largeRight' : 3, 'largeLeft' : 0, 'shiftStartRow' : 1}, '-D': {'draw' : ['0#0','0#1','1#1','1#2'], 'largeRight' : 3, 'largeLeft' : 0, 'shiftStartRow' : 1}, 'start' : "-S", 'color' : '#32CD32'}
+    'L' : {'|S' : {'draw' : ['0#0','1#0','2#0','2#-1'], 'largeRight' : 1, 'largeLeft' : 1, 'shiftStartRow' : 2, 'shiftEndtRow' : 0}, '|G' : {'draw' : ['0#0','0#1','1#0','2#0'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 2, 'shiftEndtRow' : 0}, '-S': {'draw' : ['0#-1','0#0','0#1','1#1'], 'largeRight' : 2, 'largeLeft' : 1, 'shiftStartRow' : 1, 'shiftEndtRow' : 0}, '-D': {'draw' : ['0#-1','1#-1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 1, 'shiftStartRow' : 1, 'shiftEndtRow' : 0}, 'start' : "-S", 'color' : '#FFD700'},
+    'O' : {'|S' : {'draw' : ['0#0','0#1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 1, 'shiftEndtRow' : 0}, '|G' : {'draw' : ['0#0','0#1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 1, 'shiftEndtRow' : 0}, '-S': {'draw' : ['0#0','0#1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 1, 'shiftEndtRow' : 0}, '-D': {'draw' : ['0#0','0#1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 1, 'shiftEndtRow' : 0}, 'start' : "-S", 'color' : '#FFFF00'},
+    'S' : {'|S' : {'draw' : ['-1#1','0#1','0#0','1#0'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 2, 'shiftEndtRow' : 1}, '|G' : {'draw' : ['-1#2','0#2','0#1','1#1'], 'largeRight' : 3, 'largeLeft' : -1, 'shiftStartRow' : 2, 'shiftEndtRow' : 1}, '-S': {'draw' : ['0#0','0#1','1#1','1#2'], 'largeRight' : 3, 'largeLeft' : 0, 'shiftStartRow' : 1, 'shiftEndtRow' : 0}, '-D': {'draw' : ['0#0','0#1','1#1','1#2'], 'largeRight' : 3, 'largeLeft' : 0, 'shiftStartRow' : 1, 'shiftEndtRow' : 0}, 'start' : "-S", 'color' : '#32CD32'}
 }
 
 const rotate = {
@@ -59,6 +59,7 @@ function createBlock(type){
     block['type'] = type;
     block['willing'] = celsBlock[block['type']]['start'];
     block['shiftStartRow'] = celsBlock[block['type']][block.willing].shiftStartRow;
+    block['shiftEndtRow'] = celsBlock[block['type']][block.willing].shiftEndtRow;
     block['row'] = row-block['shiftStartRow'];
     block['column'] = 7;
     block['goingDown'] = true;
@@ -100,7 +101,7 @@ function createBlock(type){
 
 function gameLoop() {
     if(block){
-        if(block.row<=0 && block.notFlash){
+        if(block.row-block.shiftEndtRow<=0 && block.notFlash){
             block.notFlash=false;
             block.flash();
             timeoutIDs.push(setTimeout(() => {
@@ -151,6 +152,7 @@ function gameLoop() {
                                 block.paint(true);
                                 block.willing=rotate[block.willing];
                                 block['shiftStartRow'] = celsBlock[block['type']][block.willing].shiftStartRow;
+                                block['shiftEndtRow'] = celsBlock[block['type']][block.willing].shiftEndtRow;
                                 block.largeRight=celsBlock[block.type][block.willing]['largeRight'];
                                 block.largeLeft=celsBlock[block.type][block.willing]['largeLeft'];
                                 if(block.column-block.largeLeft<0){
