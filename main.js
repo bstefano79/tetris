@@ -172,10 +172,15 @@ function gameLoop() {
         }
     }else{
         timeoutIDs.forEach(id => clearTimeout(id));
-        createBlock('O');
+        createBlock(generateRandomBlock());
         block.paint(false);
     }
     requestAnimationFrame(gameLoop);
+}
+
+function generateRandomBlock(){
+    const keys = Object.keys(celsBlock);// Object.keys(celsBlock)[Math.floor(Math.random() * celsBlock.length)];
+    return keys[Math.floor(Math.random() * keys.length)];
 }
 
 window.onload = function () {
@@ -203,7 +208,7 @@ function printDate(){
 
 function resetDisegnaGriglia(){
     timeoutIDs.forEach(id => clearTimeout(id));
-    createBlock('O');
+    createBlock(generateRandomBlock());
     disegnaGriglia();
 }
 
