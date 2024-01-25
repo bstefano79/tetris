@@ -34,7 +34,8 @@ document.addEventListener("keyup", function (e) {
 
 const celsBlock = {
     'L' : {'|S' : {'draw' : ['0#0','1#0','2#0','2#-1'], 'largeRight' : 1, 'largeLeft' : 1, 'shiftStartRow' : 2}, '|G' : {'draw' : ['0#0','0#1','1#0','2#0'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 2}, '-S': {'draw' : ['0#-1','0#0','0#1','1#1'], 'largeRight' : 2, 'largeLeft' : 1, 'shiftStartRow' : 1}, '-D': {'draw' : ['0#-1','1#-1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 1, 'shiftStartRow' : 1}, 'start' : "-S", 'color' : '#FFD700'},
-    'O' : {'|S' : {'draw' : ['0#0','0#1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 1}, '|G' : {'draw' : ['0#0','0#1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 1}, '-S': {'draw' : ['0#0','0#1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 1}, '-D': {'draw' : ['0#0','0#1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 1}, 'start' : "-S", 'color' : '#FFFF00'}
+    'O' : {'|S' : {'draw' : ['0#0','0#1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 1}, '|G' : {'draw' : ['0#0','0#1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 1}, '-S': {'draw' : ['0#0','0#1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 1}, '-D': {'draw' : ['0#0','0#1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 1}, 'start' : "-S", 'color' : '#FFFF00'},
+    'S' : {'|S' : {'draw' : ['0#1','1#1','1#0','2#0'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 2}, '|G' : {'draw' : ['0#2','1#2','1#1','2#1'], 'largeRight' : 3, 'largeLeft' : -1, 'shiftStartRow' : 2}, '-S': {'draw' : ['0#0','0#1','1#1','1#2'], 'largeRight' : 3, 'largeLeft' : 0, 'shiftStartRow' : 1}, '-D': {'draw' : ['0#0','0#1','1#1','1#2'], 'largeRight' : 3, 'largeLeft' : 0, 'shiftStartRow' : 1}, 'start' : "-S", 'color' : '#32CD32'}
 }
 
 const rotate = {
@@ -52,7 +53,7 @@ function init() {
 let timeoutIDs = [];
 
 let block = {};
-createBlock("L");
+createBlock("S");
 function createBlock(type){
     block = {};
     block['type'] = type;
