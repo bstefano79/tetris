@@ -84,7 +84,17 @@ function createBlock(type){
             var styleSheet = document.styleSheets[0];
             styleSheet.insertRule('@keyframes flash { 0%, 100% { background-color: initial; } 50% { background-color: '+block.color+'; } }', styleSheet.cssRules.length);   
         })
-}
+    }
+    block['paint'] = (del) => {
+        let ar = celsBlock[block.type][block.willing]['draw'];
+        const color = del?'white':block.color;
+        ar.forEach(e=>{
+            e=e.split('#');
+            r=parseInt(block.row)+parseInt(e[0]);
+            c=parseInt(block.column)+parseInt(e[1]);
+            document.getElementById("c"+r+"-"+c).style.backgroundColor=color;
+        })
+    }
 }
 
 function gameLoop() {
@@ -99,45 +109,45 @@ function gameLoop() {
         if(block.row>0 && block.goingDown){
             block.goingDown=false;
             timeoutIDs.push(setTimeout(() => {
-                disegnaOggetto(block.type,block.willing,''+block.row+"#"+block.column,"white"); 
+                block.paint(true);
                 block.row--
                 if(block.row<0) block.row=0;
-                disegnaOggetto(block.type,block.willing,''+block.row+"#"+block.column,block.color);
+                block.paint(false);
                 block.goingDown=true;
             },1000));
         } else{
             if (rightPressed && block.right && block.column<numeroCol.value-block.largeRight) {
                 block.right=false;
                 timeoutIDs.push(setTimeout(() => {
-                    disegnaOggetto(block.type,block.willing,''+block.row+"#"+block.column,"white");
+                    block.paint(true);
                     block.column++
-                    disegnaOggetto(block.type,block.willing,''+block.row+"#"+block.column,block.color);
+                    block.paint(false);
                     block.right=true;
                 },150));
             }else{
                 if (leftPressed && block.left && block.column-block.largeLeft>0) {
                     block.left=false;
                     timeoutIDs.push(setTimeout(() => {
-                        disegnaOggetto(block.type,block.willing,''+block.row+"#"+block.column,"white");
+                        block.paint(true);
                         block.column--
-                        disegnaOggetto(block.type,block.willing,''+block.row+"#"+block.column,block.color);
+                        block.paint(false);
                         block.left=true;
                     },150));
                 }else{
                     if (jumpDownPressed && block.down && block.row>0) {
                         block.down=false;
                         timeoutIDs.push(setTimeout(() => {
-                            disegnaOggetto(block.type,block.willing,''+block.row+"#"+block.column,"white");
+                            block.paint(true);
                             block.row-=2
                             if(block.row<0) block.row=0;
-                            disegnaOggetto(block.type,block.willing,''+block.row+"#"+block.column,block.color);
+                            block.paint(false);
                             block.down=true;
                         },50));
                     }else{
                         if (jumpUpPressed && block.up) {
                             block.up=false;
                             timeoutIDs.push(setTimeout(() => {
-                                disegnaOggetto(block.type,block.willing,''+block.row+"#"+block.column,"white");
+                                block.paint(true);
                                 block.willing=rotate[block.willing];
                                 block['shiftStartRow'] = celsBlock[block['type']][block.willing].shiftStartRow;
                                 block.largeRight=celsBlock[block.type][block.willing]['largeRight'];
@@ -151,8 +161,8 @@ function gameLoop() {
                                 if(block.row+block.shiftStartRow>row){
                                     block.row=row-block.shiftStartRow;
                                 }
-                            
-                                disegnaOggetto(block.type,block.willing,''+block.row+"#"+block.column,block.color);
+
+                                block.paint(false);
                                 block.up=true;
                             },200));
                         }
@@ -163,7 +173,7 @@ function gameLoop() {
     }else{
         timeoutIDs.forEach(id => clearTimeout(id));
         createBlock('O');
-        disegnaOggetto(block.type,block.willing,''+block.row+"#"+block.column,block.color);
+        block.paint(false);
     }
     requestAnimationFrame(gameLoop);
 }
@@ -189,17 +199,6 @@ function printDate(){
     const nowHr = h + ':' + m + ':' + s + '.' + ms;
 
     console.log(nowHr);
-}
-
-function disegnaOggetto(type, willing, startCel, color){
-    let ar = celsBlock[type][willing]['draw'];
-    cella = startCel.split('#');
-    ar.forEach(e=>{
-        e=e.split('#');
-        r=parseInt(cella[0])+parseInt(e[0]);
-        c=parseInt(cella[1])+parseInt(e[1]);
-        document.getElementById("c"+r+"-"+c).style.backgroundColor=color;
-    })
 }
 
 function resetDisegnaGriglia(){
@@ -232,7 +231,7 @@ function disegnaGriglia(){
        element.style.gridTemplateColumns = "repeat("+numeroCol.value+", 25px)";
     });
 
-    disegnaOggetto(block.type,block.willing,''+block.row+"#"+block.column,block.color);
+    block.paint(false);
 
     gameLoop();
 }
