@@ -108,12 +108,12 @@ function gameLoop() {
                 block=null;
             },700));
         }
-        if(block.row>0 && block.goingDown){
+        if(block.row-block.shiftEndtRow>0 && block.goingDown){
             block.goingDown=false;
             timeoutIDs.push(setTimeout(() => {
                 block.paint(true);
                 block.row--
-                if(block.row<0) block.row=0;
+                if(block.row-block.shiftEndtRow<0) block.row=block.shiftEndtRow;
                 block.paint(false);
                 block.goingDown=true;
             },1000));
@@ -136,12 +136,12 @@ function gameLoop() {
                         block.left=true;
                     },150));
                 }else{
-                    if (jumpDownPressed && block.down && block.row>0) {
+                    if (jumpDownPressed && block.down && block.row-block.shiftEndtRow>0) {
                         block.down=false;
                         timeoutIDs.push(setTimeout(() => {
                             block.paint(true);
                             block.row-=2
-                            if(block.row<0) block.row=0;
+                            if(block.row-block.shiftEndtRow<0) block.row=block.shiftEndtRow;
                             block.paint(false);
                             block.down=true;
                         },50));
@@ -182,7 +182,7 @@ function gameLoop() {
 }
 
 function generateRandomBlock(){
-    const keys = Object.keys(celsBlock);// Object.keys(celsBlock)[Math.floor(Math.random() * celsBlock.length)];
+    const keys = Object.keys(celsBlock);
     return keys[Math.floor(Math.random() * keys.length)];
 }
 
