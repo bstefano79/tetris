@@ -33,7 +33,7 @@ document.addEventListener("keyup", function (e) {
 });
 
 const celsBlock = {
-    'L' : {'-S': {'draw' : ['0#-1','0#0','0#1','1#1'], 'largeRight' : 2, 'largeLeft' : 1, 'shiftStartRow' : 1, 'shiftEndtRow' : 0}, '|G' : {'draw' : ['0#0','0#1','1#0','2#0'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 2, 'shiftEndtRow' : 0}, '-D': {'draw' : ['0#-1','1#-1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 1, 'shiftStartRow' : 1, 'shiftEndtRow' : 0}, '|S' : {'draw' : ['0#0','1#0','2#0','2#-1'], 'largeRight' : 1, 'largeLeft' : 1, 'shiftStartRow' : 2, 'shiftEndtRow' : 0}, 'start' : "-S", 'color' : '#FFD700'},
+    'L' : {'-S': {'draw' : ['0#-1','0#0','0#1','1#1'], 'largeRight' : 2, 'largeLeft' : 1, 'shiftStartRow' : 1, 'shiftEndtRow' : 0}, '|G' : {'draw' : ['1#0','0#0','-1#0','-1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 1, 'shiftEndtRow' : 1}, '-D': {'draw' : ['-1#-1','0#-1','0#0','0#1'], 'largeRight' : 2, 'largeLeft' : 1, 'shiftStartRow' : 1, 'shiftEndtRow' : 1}, '|S' : {'draw' : ['-1#0','0#0','1#0','1#-1'], 'largeRight' : 1, 'largeLeft' : 1, 'shiftStartRow' : 1, 'shiftEndtRow' : 1}, 'start' : "-S", 'color' : '#FFD700'},
     'O' : {'-S': {'draw' : ['0#0','0#1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 1, 'shiftEndtRow' : 0}, '|G' : {'draw' : ['0#0','0#1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 1, 'shiftEndtRow' : 0}, '-D': {'draw' : ['0#0','0#1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 1, 'shiftEndtRow' : 0}, '|S' : {'draw' : ['0#0','0#1','1#0','1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 1, 'shiftEndtRow' : 0}, 'start' : "-S", 'color' : '#FFFF00'},
     'S' : {'-S': {'draw' : ['0#0','0#1','1#1','1#2'], 'largeRight' : 3, 'largeLeft' : 0, 'shiftStartRow' : 1, 'shiftEndtRow' : 0}, '|G' : {'draw' : ['-1#2','0#2','0#1','1#1'], 'largeRight' : 3, 'largeLeft' : -1, 'shiftStartRow' : 2, 'shiftEndtRow' : 1}, '-D': {'draw' : ['0#0','0#1','1#1','1#2'], 'largeRight' : 3, 'largeLeft' : 0, 'shiftStartRow' : 1, 'shiftEndtRow' : 0}, '|S' : {'draw' : ['-1#1','0#1','0#0','1#0'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 2, 'shiftEndtRow' : 1}, 'start' : "-S", 'color' : '#32CD32'},
     'Z' : {'-S': {'draw' : ['0#0','0#1','1#0','1#-1'], 'largeRight' : 2, 'largeLeft' : 1, 'shiftStartRow' : 1, 'shiftEndtRow' : 0}, '|G' : {'draw' : ['-1#-1','0#-1','0#0','1#0'], 'largeRight' : 1, 'largeLeft' : 1, 'shiftStartRow' : 2, 'shiftEndtRow' : 1}, '-D': {'draw' : ['0#0','0#1','1#0','1#-1'], 'largeRight' : 2, 'largeLeft' : 1, 'shiftStartRow' : 1, 'shiftEndtRow' : 0}, '|S' : {'draw' : ['-1#0','0#0','0#1','1#1'], 'largeRight' : 2, 'largeLeft' : 0, 'shiftStartRow' : 2, 'shiftEndtRow' : 1}, 'start' : "-S", 'color' : '#FF6347'}
@@ -54,7 +54,7 @@ function init() {
 let timeoutIDs = [];
 
 let block = {};
-createBlock("Z");
+createBlock("L");
 function createBlock(type){
     block = {};
     block['type'] = type;
@@ -117,7 +117,7 @@ function gameLoop() {
                 if(block.row-block.shiftEndtRow<0) block.row=block.shiftEndtRow;
                 block.paint(false);
                 block.goingDown=true;
-            },1000));
+            },10000));
         } else{
             if (rightPressed && block.right && block.column<numeroCol.value-block.largeRight) {
                 block.right=false;
