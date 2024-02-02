@@ -47,7 +47,7 @@ const celsBlock = {
         '|G' : {
             'draw' : ['1#1','0#1','-1#1','-1#2'],
             'blocking' : {
-                'd' : ['2#1', '2#2'], 'r' : ['1#2', '0#2', '-1#3'], 'l' : ['1#0', '0#0', '-1#0']
+                'd' : ['-2#1', '-2#2'], 'r' : ['1#2', '0#2', '-1#3'], 'l' : ['1#0', '0#0', '-1#0']
             },
             'largeRight' : 3,
             'largeLeft' : -1,
@@ -329,52 +329,91 @@ function createBlock(type){
             document.getElementById("c"+r+"-"+c).style.backgroundColor=color;
         })
     }
+    block['blocking'] = (direction) => {
+        if(direction!='d' && direction!='r' && direction!='l'){
+            throw('ERROR: direction '+direction+' is not supported');
+        }
+       
+        let ar =celsBlock[block.type][block.willing]['blocking'][direction];
+        let stop=false;
+        ar.forEach(e=>{
+            e=e.split('#');
+
+            const r = parseInt(block.row)+parseInt(e[0]);
+            const c = parseInt(block.column)+parseInt(e[1]);
+            const myDiv = document.getElementById('c'+r+'-'+c);
+
+            if(myDiv==null){
+                stop = true;
+            }else{
+                if(myDiv.style.backgroundColor!='white'){
+                    stop=true;
+                }
+            }
+
+
+        })
+        return stop;
+    }
 }
 
 function gameLoop() {
     if(block){
-        if(block.row-block.shiftEndtRow<=0 && block.notFlash){
+        if(block.blocking('d') && block.notFlash){
             block.notFlash=false;
             block.flash();
             timeoutIDs.push(setTimeout(() => {
-                block=null;
+                if(block.blocking('d')){
+                    block=null;
+                } else{
+                    block.notFlash=true;
+                }
             },700));
         }
-        if(block.row-block.shiftEndtRow>0 && block.goingDown){
+        if(!block.blocking('d') && block.goingDown){
             block.goingDown=false;
             timeoutIDs.push(setTimeout(() => {
-                block.paint(true);
-                block.row--
-                if(block.row-block.shiftEndtRow<0) block.row=block.shiftEndtRow;
-                block.paint(false);
+                if(!block.blocking('d')){
+                    block.paint(true);
+                    block.row--;
+                    block.paint(false);
+                }
                 block.goingDown=true;
-            },10000));
+            },200));
         } else{
-            if (rightPressed && block.right && block.column<numeroCol.value-block.largeRight) {
+            if (rightPressed && block.right && !block.blocking('r')) {
                 block.right=false;
                 timeoutIDs.push(setTimeout(() => {
-                    block.paint(true);
-                    block.column++
-                    block.paint(false);
+                    if(!block.blocking('r')){
+                        block.paint(true);
+                        block.column++
+                        block.paint(false);
+                    }
                     block.right=true;
                 },150));
             }else{
-                if (leftPressed && block.left && block.column-block.largeLeft>0) {
+                if (leftPressed && block.left && !block.blocking('l')) {
                     block.left=false;
                     timeoutIDs.push(setTimeout(() => {
-                        block.paint(true);
-                        block.column--
-                        block.paint(false);
+                        if(!block.blocking('l')){
+                            block.paint(true);
+                            block.column--
+                            block.paint(false);
+                        }
                         block.left=true;
                     },150));
                 }else{
                     if (jumpDownPressed && block.down && block.row-block.shiftEndtRow>0) {
                         block.down=false;
                         timeoutIDs.push(setTimeout(() => {
-                            block.paint(true);
-                            block.row-=2
-                            if(block.row-block.shiftEndtRow<0) block.row=block.shiftEndtRow;
-                            block.paint(false);
+                            if(!block.blocking('d')){
+                                block.paint(true);
+                                block.row--;
+                                if(!block.blocking('d')){
+                                    block.row--;
+                                }
+                                block.paint(false);
+                            }
                             block.down=true;
                         },50));
                     }else{
@@ -382,6 +421,7 @@ function gameLoop() {
                             block.up=false;
                             timeoutIDs.push(setTimeout(() => {
                                 block.paint(true);
+                                let oldWilling=block.willing;
                                 block.willing=rotate[block.willing];
                                 block['shiftStartRow'] = celsBlock[block['type']][block.willing].shiftStartRow;
                                 block['shiftEndtRow'] = celsBlock[block['type']][block.willing].shiftEndtRow;
@@ -407,7 +447,8 @@ function gameLoop() {
         }
     }else{
         timeoutIDs.forEach(id => clearTimeout(id));
-        createBlock(generateRandomBlock());
+        //createBlock(generateRandomBlock());
+        createBlock('L');
         block.paint(false);
     }
     requestAnimationFrame(gameLoop);
@@ -460,7 +501,7 @@ function disegnaGriglia(){
     for(let i=row;i>=0;i--){
         strGame+="<span class=\"row"+i+"\">";
         for(let j=0;j<numeroCol.value;j++){
-            strGame+="<div class=\"cell\" id=\"c"+i+'-'+j+"\"></div>";
+            strGame+="<div class=\"cell\" id=\"c"+i+'-'+j+"\" style=\"background-color:white\"></div>";
         }
        strGame+="</span>";
     }
