@@ -168,7 +168,7 @@ const celsBlock = {
         '-S': {
             'draw' : ['0#0','0#1','0#2','0#3'],
             'blocking' : {
-                'd' : ['-1#0', '-1#1', '-1#2'], 'r' : ['0#3', '1#3'], 'l' : ['0#-1', '1#1']
+                'd' : ['-1#0','-1#1',,'-1#2',,'-1#3'], 'r' : ['0#4'], 'l' : ['0#-1']
             },
             'largeRight' : 4,
             'largeLeft' : 0,
@@ -178,7 +178,7 @@ const celsBlock = {
         '|G' : {
             'draw' : ['1#2','0#2','-1#2','-2#2'],
             'blocking' : {
-                'd' : ['-1#0', '-1#1', '-1#2'], 'r' : ['0#3', '1#3'], 'l' : ['0#-1', '1#1']
+                'd' : ['-3#2'], 'r' :  ['1#3', '0#3','-1#3','-2#3'], 'l' : ['1#1', '0#1','-1#1','-2#1']
             },
             'largeRight' : 3,
             'largeLeft' : -2,
@@ -188,7 +188,7 @@ const celsBlock = {
         '-D': {
             'draw' : ['-1#0','-1#1','-1#2','-1#3'],
             'blocking' : {
-                'd' : ['-1#0', '-1#1', '-1#2'], 'r' : ['0#3', '1#3'], 'l' : ['0#-1', '1#1']
+                'd' : ['-2#0','-2#1',,'-2#2',,'-2#3'], 'r' : ['-1#4'], 'l' : ['-1#-1']
             },
             'largeRight' : 4,
             'largeLeft' : 0,
@@ -198,7 +198,7 @@ const celsBlock = {
         '|S' : {
             'draw' : ['1#1','0#1','-1#1','-2#1'],
             'blocking' : {
-                'd' : ['-1#0', '-1#1', '-1#2'], 'r' : ['0#3', '1#3'], 'l' : ['0#-1', '1#1']
+                'd' : ['-3#1'], 'r' :  ['1#2', '0#2','-1#2','-2#2'], 'l' : ['1#0', '0#0','-1#0','-2#0']
             },
             'largeRight' : 2,
             'largeLeft' : -1,
@@ -357,7 +357,7 @@ function init() {
 let timeoutIDs = [];
 
 let block = {};
-createBlock("O");
+createBlock("I");
 function createBlock(type){
     block = {};
     block['type'] = type;
@@ -451,7 +451,7 @@ function gameLoop() {
                     block.paint(false);
                 }
                 block.goingDown=true;
-            },200));
+            },3000));
         } else{
             if (rightPressed && block.right && !block.blocking('r')) {
                 block.right=false;
