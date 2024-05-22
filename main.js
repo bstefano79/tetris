@@ -80,6 +80,9 @@ const celsBlock = {
     'J' : {
         '-S': {
             'draw' : ['0#0','0#1','0#2','1#0'],
+            'blocking' : {
+                'd' : ['-1#0', '-1#1', '-1#2'], 'r' : ['0#3', '1#1'], 'l' : ['0#-1', '1#-1']
+            },
             'largeRight' : 3,
             'largeLeft' : 0,
             'shiftStartRow' : 1,
@@ -87,6 +90,9 @@ const celsBlock = {
         },
         '|G' : {
             'draw' : ['1#1','1#2','0#1','-1#1'],
+            'blocking' : {
+                'd' : ['-2#1', '0#2'], 'r' : ['1#3', '0#2', '-1#2'], 'l' : ['1#0', '0#0', '-1#0']
+            },
             'largeRight' : 3,
             'largeLeft' : -1,
             'shiftStartRow' : 1,
@@ -94,6 +100,9 @@ const celsBlock = {
         },
         '-D': {
             'draw' : ['0#0','0#1','0#2','-1#2'],
+            'blocking' : {
+                'd' : ['-1#0', '-1#1', '-2#2'], 'r' : ['0#3', '1#3'], 'l' : ['0#-1', '-1#1']
+            },
             'largeRight' : 3,
             'largeLeft' : 0,
             'shiftStartRow' : 1,
@@ -101,6 +110,9 @@ const celsBlock = {
         },
         '|S' : {
             'draw' : ['-1#1','0#1','1#1','-1#0'],
+            'blocking' : {
+                'd' : ['-2#0', '-2#1'], 'r' : ['-1#2', '0#2', '-1#2'], 'l' : ['-1#-1', '0#0', '-1#0']
+            },
             'largeRight' : 2,
             'largeLeft' : 0,
             'shiftStartRow' : 1,
@@ -111,6 +123,9 @@ const celsBlock = {
     'O' : {
         '-S': {
             'draw' : ['0#0','0#1','1#0','1#1'],
+            'blocking' : {
+                'd' : ['-1#0', '-1#1', '-1#2'], 'r' : ['0#3', '1#3'], 'l' : ['0#-1', '1#1']
+            },
             'largeRight' : 2,
             'largeLeft' : 0,
             'shiftStartRow' : 1,
@@ -118,6 +133,9 @@ const celsBlock = {
         },
         '|G' : {
             'draw' : ['0#0','0#1','1#0','1#1'],
+            'blocking' : {
+                'd' : ['-1#0', '-1#1', '-1#2'], 'r' : ['0#3', '1#3'], 'l' : ['0#-1', '1#1']
+            },
             'largeRight' : 2,
             'largeLeft' : 0,
             'shiftStartRow' : 1,
@@ -125,6 +143,9 @@ const celsBlock = {
         },
         '-D': {
             'draw' : ['0#0','0#1','1#0','1#1'],
+            'blocking' : {
+                'd' : ['-1#0', '-1#1', '-1#2'], 'r' : ['0#3', '1#3'], 'l' : ['0#-1', '1#1']
+            },
             'largeRight' : 2,
             'largeLeft' : 0,
             'shiftStartRow' : 1,
@@ -132,6 +153,9 @@ const celsBlock = {
         },
         '|S' : {
             'draw' : ['0#0','0#1','1#0','1#1'],
+            'blocking' : {
+                'd' : ['-1#0', '-1#1', '-1#2'], 'r' : ['0#3', '1#3'], 'l' : ['0#-1', '1#1']
+            },
             'largeRight' : 2,
             'largeLeft' : 0,
             'shiftStartRow' : 1,
@@ -143,6 +167,9 @@ const celsBlock = {
     'I' : {
         '-S': {
             'draw' : ['0#0','0#1','0#2','0#3'],
+            'blocking' : {
+                'd' : ['-1#0', '-1#1', '-1#2'], 'r' : ['0#3', '1#3'], 'l' : ['0#-1', '1#1']
+            },
             'largeRight' : 4,
             'largeLeft' : 0,
             'shiftStartRow' : 0,
@@ -150,6 +177,9 @@ const celsBlock = {
         },
         '|G' : {
             'draw' : ['1#2','0#2','-1#2','-2#2'],
+            'blocking' : {
+                'd' : ['-1#0', '-1#1', '-1#2'], 'r' : ['0#3', '1#3'], 'l' : ['0#-1', '1#1']
+            },
             'largeRight' : 3,
             'largeLeft' : -2,
             'shiftStartRow' : 1,
@@ -157,6 +187,9 @@ const celsBlock = {
         },
         '-D': {
             'draw' : ['-1#0','-1#1','-1#2','-1#3'],
+            'blocking' : {
+                'd' : ['-1#0', '-1#1', '-1#2'], 'r' : ['0#3', '1#3'], 'l' : ['0#-1', '1#1']
+            },
             'largeRight' : 4,
             'largeLeft' : 0,
             'shiftStartRow' : 1,
@@ -164,6 +197,9 @@ const celsBlock = {
         },
         '|S' : {
             'draw' : ['1#1','0#1','-1#1','-2#1'],
+            'blocking' : {
+                'd' : ['-1#0', '-1#1', '-1#2'], 'r' : ['0#3', '1#3'], 'l' : ['0#-1', '1#1']
+            },
             'largeRight' : 2,
             'largeLeft' : -1,
             'shiftStartRow' : 1,
@@ -175,6 +211,9 @@ const celsBlock = {
     'T' : {
         '-S': {
             'draw' : ['0#0','0#1','0#2','1#1'],
+            'blocking' : {
+                'd' : ['-1#0', '-1#1', '-1#2'], 'r' : ['0#3', '1#3'], 'l' : ['0#-1', '1#1']
+            },
             'largeRight' : 3,
             'largeLeft' : 0,
             'shiftStartRow' : 1,
@@ -182,6 +221,9 @@ const celsBlock = {
         },
         '|G' : {
             'draw' : ['0#1','0#2','1#1','-1#1'],
+            'blocking' : {
+                'd' : ['-1#0', '-1#1', '-1#2'], 'r' : ['0#3', '1#3'], 'l' : ['0#-1', '1#1']
+            },
             'largeRight' : 3,
             'largeLeft' : -1,
             'shiftStartRow' : 1,
@@ -189,6 +231,9 @@ const celsBlock = {
         },
         '-D': {
             'draw' : ['0#0','0#1','0#2','-1#1'],
+            'blocking' : {
+                'd' : ['-1#0', '-1#1', '-1#2'], 'r' : ['0#3', '1#3'], 'l' : ['0#-1', '1#1']
+            },
             'largeRight' : 3,
             'largeLeft' : 0,
             'shiftStartRow' : 1,
@@ -196,6 +241,9 @@ const celsBlock = {
         },
         '|S' : {
             'draw' : ['0#0','0#1','1#1','-1#1'],
+            'blocking' : {
+                'd' : ['-1#0', '-1#1', '-1#2'], 'r' : ['0#3', '1#3'], 'l' : ['0#-1', '1#1']
+            },
             'largeRight' : 2,
             'largeLeft' : 0,
             'shiftStartRow' : 1,
@@ -207,6 +255,9 @@ const celsBlock = {
     'S' : {
         '-S': {
             'draw' : ['0#0','0#1','1#1','1#2'],
+            'blocking' : {
+                'd' : ['-1#0', '-1#1', '-1#2'], 'r' : ['0#3', '1#3'], 'l' : ['0#-1', '1#1']
+            },
             'largeRight' : 3,
             'largeLeft' : 0,
             'shiftStartRow' : 1,
@@ -214,6 +265,9 @@ const celsBlock = {
         },
         '|G' : {
             'draw' : ['-1#1','0#1','0#2','1#2'],
+            'blocking' : {
+                'd' : ['-1#0', '-1#1', '-1#2'], 'r' : ['0#3', '1#3'], 'l' : ['0#-1', '1#1']
+            },
             'largeRight' : 3,
             'largeLeft' : -1,
             'shiftStartRow' : 1,
@@ -221,6 +275,9 @@ const celsBlock = {
         },
         '-D': {
             'draw' : ['0#1','0#2','-1#0','-1#1'],
+            'blocking' : {
+                'd' : ['-1#0', '-1#1', '-1#2'], 'r' : ['0#3', '1#3'], 'l' : ['0#-1', '1#1']
+            },
             'largeRight' : 3,
             'largeLeft' : 0,
             'shiftStartRow' : 1,
@@ -228,6 +285,9 @@ const celsBlock = {
         },
         '|S' : {
             'draw' : ['1#0','0#0','0#1','-1#1'],
+            'blocking' : {
+                'd' : ['-1#0', '-1#1', '-1#2'], 'r' : ['0#3', '1#3'], 'l' : ['0#-1', '1#1']
+            },
             'largeRight' : 2,
             'largeLeft' : 0,
             'shiftStartRow' : 1,
@@ -239,6 +299,9 @@ const celsBlock = {
     'Z' : {
         '-S': {
             'draw' : ['0#0','0#1','1#0','1#-1'],
+            'blocking' : {
+                'd' : ['-1#0', '-1#1', '-1#2'], 'r' : ['0#3', '1#3'], 'l' : ['0#-1', '1#1']
+            },
             'largeRight' : 2,
             'largeLeft' : 1,
             'shiftStartRow' : 1,
@@ -246,6 +309,9 @@ const celsBlock = {
         },
         '|G' : {
             'draw' : ['-1#-0','0#0','0#1','1#1'],
+            'blocking' : {
+                'd' : ['-1#0', '-1#1', '-1#2'], 'r' : ['0#3', '1#3'], 'l' : ['0#-1', '1#1']
+            },
             'largeRight' : 2,
             'largeLeft' : 0,
             'shiftStartRow' : 1,
@@ -253,6 +319,9 @@ const celsBlock = {
         },
         '-D': {
             'draw' : ['0#-1','0#0','-1#0','-1#1'],
+            'blocking' : {
+                'd' : ['-1#0', '-1#1', '-1#2'], 'r' : ['0#3', '1#3'], 'l' : ['0#-1', '1#1']
+            },
             'largeRight' : 2,
             'largeLeft' : 1,
             'shiftStartRow' : 1,
@@ -260,6 +329,9 @@ const celsBlock = {
         },
         '|S' : {
             'draw' : ['0#0','1#0','0#-1','-1#-1'],
+            'blocking' : {
+                'd' : ['-1#0', '-1#1', '-1#2'], 'r' : ['0#3', '1#3'], 'l' : ['0#-1', '1#1']
+            },
             'largeRight' : 1,
             'largeLeft' : 1,
             'shiftStartRow' : 2,
@@ -285,7 +357,7 @@ function init() {
 let timeoutIDs = [];
 
 let block = {};
-createBlock("L");
+createBlock("J");
 function createBlock(type){
     block = {};
     block['type'] = type;
@@ -448,7 +520,7 @@ function gameLoop() {
     }else{
         timeoutIDs.forEach(id => clearTimeout(id));
         //createBlock(generateRandomBlock());
-        createBlock('L');
+        createBlock('J');
         block.paint(false);
     }
     requestAnimationFrame(gameLoop);
